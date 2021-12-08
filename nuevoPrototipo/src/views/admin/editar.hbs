@@ -3,12 +3,12 @@
         <div class="col-md-4 mx-auto">
             <div class="card ">
                 <div class="card-body">
-                    <form action="/admin/add" method="post">
+                    <form action="/admin/editar/{{dato.id_hora}}" method="post">
                             <div class="form-group">
-                                <input type="datetime" name="fecha_hora" class="form-control" placeholder="Fecha Y Hora">
+                                <input type="datetime" value="{{dato.horario}}" name="fecha_hora" class="form-control" placeholder="Fecha Y Hora">
                             </div>
                             <div class="form-group">
-                                <input type="varchar" name="rut_p" class="form-control" placeholder="RUT PROFESIONAL">
+                                <input type="varchar" value="{{dato.rut_p}}" name="rut_p" class="form-control" placeholder="RUT PROFESIONAL">
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-success btn-block">

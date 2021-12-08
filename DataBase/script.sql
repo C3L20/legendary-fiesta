@@ -152,7 +152,7 @@ on delete cascade
 
 create table hora_medica(
 id_hora integer auto_increment,
-disponibilidad boolean not null,
+disponibilidad ENUM("Disponible","Ocupado") default not null,
 fecha_hora datetime not null,
 rut_p varchar(13) not null,
 primary key (id_hora),
@@ -172,10 +172,11 @@ on delete cascade
 );
 
 create table solicita(
+id_solicitud integer auto_increment,
 motivo varchar(45) not null,
 rut varchar(13) not null,
 id_hora int(3) not null,
-primary key (motivo),
+primary key (id_solicitud),
 foreign key(rut) references persona(rut)
 on update cascade
 on delete cascade,
@@ -183,3 +184,5 @@ foreign key(id_hora) references hora_medica(id_hora)
 on update cascade
 on delete cascade
 );
+
+ALTER TABLE hora_medica CHANGE disponibilidad disponibilidad ENUM('Disponible','Reservado') NOT NULL DEFAULT 'Disponible';
