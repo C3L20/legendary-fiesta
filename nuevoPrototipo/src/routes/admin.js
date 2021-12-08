@@ -10,39 +10,20 @@ router.get('/add', (req,res) => {
 });
 
 router.post('/add', async (req,res) => {
-    const {fecha_hora, rut_p} = req.body;
-    const nuevaHora = {
-        fecha_hora,
-        rut_p
-    };  
-    await pool.query('INSERT INTO hora_medica set ?', [nuevaHora]);
-    res.redirect('lista');
-});
-
-router.get('/lista', async (req,res) => {
-    const horas = await pool.query("SELECT id_hora , disponibilidad , DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', nombre FROM hora_medica INNER JOIN profesional ON hora_medica.rut_p = profesional.rut_p");
-    res.render('admin/lista', { horas });
-});
-
-router.get('/eliminar/:id',async (req,res) => {
-    const { id } = req.params;
-    await pool.query("DELETE FROM hora_medica WHERE id_hora = ?", [id]);
-    res.redirect('../lista');
-});
-router.get('/editar/:id', async (req,res) => {
-    const { id } = req.params;
-    const datos = await pool.query("SELECT id_hora, DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', rut_p FROM hora_medica WHERE id_hora = ?",[id]);
-    res.render('admin/editar', {dato: datos[0]});
-});
-router.post('/editar/:id', async (req,res) => {
-    const { id } = req.params;
-    const { fecha_hora, rut_p } = req.body;
-    const nuevaHora = {
+    const {disponibilidad, fecha_hora, rut_p} = req.body;
+    const newLink = {
+        disponibilidad,
         fecha_hora,
         rut_p
     };
-    const datos = await pool.query("UPDATE hora_medica SET ? WHERE id_hora = ?",[nuevaHora,id]);
-    res.redirect('../lista');
+ //console.log('INSERT INTO hora_medica set ?', [newLink])   
+    await pool.query('INSERT INTO hora_medica set ?', [newLink]);
+    res.send('recivido');
+});
+
+router.get('/', async (req,res) => {
+    const links = pool.query('SELECT * FROM hora_medica');
+    res.render('admin/listashoras', {links: links})
 });
 
 module.exports = router;
